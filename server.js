@@ -45,41 +45,100 @@ app.post("/signup", async (req, res) => {
     color: white;
     font-family: Arial, sans-serif;
     text-align: center;
-     border: 1px solid #fda900;
-     border-radius: 5px;
   "
 >
-  <div
-    style="
-      width: 500px;
-      margin: 0 auto;
-     
-    "
-  >
-    <img src="https://pdmmarilao.bond/Pictures/pdm.png" style="width: 100px" />
-    <h1 style="font-size: 1.4rem">
-      PAMBAYANG DALUBHASAAN
-      <span style="display: block; color: #fda900">NG MARILAO</span>
-    </h1>
-    <h2 style="font-size: 1.3rem">Your Account Credentials</h2>
-    <p style="color: rgba(255, 255, 255, 0.589)">
-      Your account has been successfully created.
-    </p>
-    <p style="color: rgba(255, 255, 255, 0.589)">
-     Use the credentials below to log in to the
-      <span style="display:block;">PDM Website</span>
-    </p>
-    <h3>Account Information</h3>
-    <div style="text-align: start; width: 180px; margin: 0 auto">
-      <p style="margin: 10px 0">
-        <strong>Email Address: </strong><span style="display: block">${email}</span>
-      </p>
-      <p style="margin: 10px 0">
-        <strong>Password: </strong><span style="display: block">${password}</span>
-      </p>
-    </div>
-  </div>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+    <tr>
+      <td align="center">
+        <table
+          style="
+            border: 2px solid #fda900;
+            border-radius: 5px;
+            background-color: #130b02;
+          "
+        >
+          <tr>
+            <td align="center" style="padding: 32px 32px 0">
+              <img
+                src="https://pdmmarilao.bond/Pictures/pdm.png"
+                style="width: 100px"
+              />
+
+              <h1 style="font-size: 1.4rem">
+                PAMBAYANG DALUBHASAAN
+                <span style="display: block; color: #fda900"> NG MARILAO </span>
+              </h1>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding: 0">
+              <div
+                style="
+                  height: 2px;
+                  width: 100%;
+                  margin: 20px 0;
+                  background-color: rgba(253, 169, 0, 0.2);
+                "
+              ></div>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding: 0 32px 32px">
+              <h2 style="font-size: 1.3rem">Your Account Credentials</h2>
+
+              <p style="color: rgba(255, 255, 255, 0.589)">
+                Your account has been successfully created.
+              </p>
+
+              <p style="color: rgba(255, 255, 255, 0.589)">
+                Use the credentials below to log in to the
+                <span style="display: block">PDM Website</span>
+              </p>
+
+              <h3 style="padding-top: 20px">Account Information</h3>
+
+              <p style="margin: 10px 0">
+                <strong>Email Address:</strong>
+                <span style="display: block">${email}</span>
+              </p>
+
+              <p style="margin: 10px 0">
+                <strong>Password:</strong>
+                <span style="display: block">${password}</span>
+              </p>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding: 0">
+              <div
+                style="
+                  height: 2px;
+                  width: 100%;
+                  margin: 20px 0;
+                  background-color: rgba(253, 169, 0, 0.2);
+                "
+              ></div>
+            </td>
+          </tr>
+          <tr>
+            <td align="center" style="padding: 0 15px 25px 15px">
+              <p style="color: rgba(255, 255, 255, 0.781)">
+                Pambayang Dalubhasaan ng Marilao
+              </p>
+              <p style="color: rgba(255, 255, 255, 0.589); font-size: 0.9rem">
+                This is an automated message. Please do not reply.
+              </p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
 </body>
+
 
 `;
   mysqldb.query(
