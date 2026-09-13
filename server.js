@@ -21,7 +21,6 @@ const mysqldb = mysql.createPool({
 const app = express();
 
 app.use(cors());
-app.use(express.static("D:/PDM Project/PDM"));
 app.use(express.urlencoded({ extended: true }));
 
 const transporter = nodemailer.createTransport({
@@ -38,7 +37,51 @@ app.post("/signup", async (req, res) => {
   const full_name = req.body.full_name;
   const email = req.body.email;
   const password = req.body.password;
+  const emailsend = `<body
+  style="
+    margin: 0;
+    padding: 30px 10px;
+    background-color: #0f0800;
+    color: white;
+    font-family: Arial, sans-serif;
+    text-align: center;
+     border: 1px solid #fda900;
+     border-radius: 5px;
+  "
+>
+  <div
+    style="
+      width: 500px;
+      margin: 0 auto;
+     
+    "
+  >
+    <img src="https://pdmmarilao.bond/Pictures/pdm.png" style="width: 100px" />
+    <h1 style="font-size: 1.4rem">
+      PAMBAYANG DALUBHASAAN
+      <span style="display: block; color: #fda900">NG MARILAO</span>
+    </h1>
+    <h2 style="font-size: 1.3rem">Your Account Credentials</h2>
+    <p style="color: rgba(255, 255, 255, 0.589)">
+      Your account has been successfully created.
+    </p>
+    <p style="color: rgba(255, 255, 255, 0.589)">
+     Use the credentials below to log in to the
+      <span style="display:block;">PDM Website</span>
+    </p>
+    <h3>Account Information</h3>
+    <div style="text-align: start; width: 180px; margin: 0 auto">
+      <p style="margin: 10px 0">
+        <strong>Email Address: </strong><span style="display: block">${email}</span>
+      </p>
+      <p style="margin: 10px 0">
+        <strong>Password: </strong><span style="display: block">${password}</span>
+      </p>
+    </div>
+  </div>
+</body>
 
+`;
   mysqldb.query(
     "SELECT * FROM students WHERE email = ?",
     [email],
@@ -68,7 +111,7 @@ app.post("/signup", async (req, res) => {
                 from: process.env.EMAIL_USER,
                 to: email,
                 subject: "Student Credentials",
-                text: "HELLO WORLD",
+                html: emailsend,
               });
             } catch (error) {
               console.error("Email Error:", error);
