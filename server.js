@@ -85,19 +85,16 @@ app.post("/signup", async (req, res) => {
           </tr>
 
           <tr>
-            <td style="padding: 0 32px 32px">
-              <h2 style="font-size: 1.3rem">Your Account Credentials</h2>
-
-              <p style="color: rgba(255, 255, 255, 0.589)">
+            <td style="padding: 0 32px 0 32px">
+              <h2 style="font-size: 1.3rem">
                 Your account has been successfully created.
-              </p>
+              </h2>
 
               <p style="color: rgba(255, 255, 255, 0.589)">
-                Use the credentials below to log in to the
-                <span style="display: block">PDM Website</span>
+                Use the credentials below to log in to the PDM Website
               </p>
 
-              <h3 style="padding-top: 20px">Account Information</h3>
+              <h3>Account Information</h3>
 
               <p style="margin: 10px 0">
                 <strong>Email Address:</strong>
@@ -125,7 +122,7 @@ app.post("/signup", async (req, res) => {
           </tr>
           <tr>
             <td align="center" style="padding: 0 15px 25px 15px">
-              <p style="color: rgba(255, 255, 255, 0.781)">
+              <p style="color: rgba(255, 255, 255, 0.726)">
                 Pambayang Dalubhasaan ng Marilao
               </p>
               <p style="color: rgba(255, 255, 255, 0.589); font-size: 0.9rem">
