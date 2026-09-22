@@ -11,6 +11,7 @@ const Port = process.env.PORT;
 const MySQLStore = MySQLStoreFactory(session);
 const app = express();
 app.set("trust proxy", 1);
+
 const sessionStore = new MySQLStore({
   host: "localhost",
   user: process.env.DB_USER,
@@ -44,7 +45,7 @@ const mysqldb = mysql.createPool({
 
 app.use(
   cors({
-    origin: "https://pdmmarilao.bond",
+    origin: "https://pdmmarilao.bond/",
     credentials: true,
   }),
 );
@@ -543,7 +544,7 @@ app.post("/forgot_password", (req, res) => {
             await transporter.sendMail({
               from: process.env.EMAIL_USER,
               to: email,
-              subject: "Student Credentials",
+              subject: "Forgot Password",
               html: emailsend,
             });
             return res.status(200).send("done");
