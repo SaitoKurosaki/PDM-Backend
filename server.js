@@ -771,7 +771,6 @@ app.get("/student_data", (req, res) => {
         console.error(error);
         return res.status(500).send("Database Error");
       }
-      face;
 
       if (result.length === 0) {
         return res.status(404).send("Student Not Found");
