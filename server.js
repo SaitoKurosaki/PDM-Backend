@@ -842,14 +842,18 @@ app.post("/updateinfo", (req, res) => {
 });
 
 app.get("/database", (req, res) => {
-  mysqldb.query("SELECT * FROM students", [], (err, result) => {
-    if (err) {
-      console.error(err);
-      return res.status(500).send("Database Error");
-    }
+  mysqldb.query(
+    "SELECT full_name,email,password,parent_email,student_number FROM students",
+    [],
+    (err, result) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).send("Database Error");
+      }
 
-    res.json(result);
-  });
+      res.json(result);
+    },
+  );
 });
 
 app.listen(Port, () => {
