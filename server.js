@@ -45,11 +45,12 @@ const mysqldb = mysql.createPool({
 
 app.use(
   cors({
-    origin: "https://pdmmarilao.bond/",
+    origin: "https://pdmmarilao.bond",
     credentials: true,
   }),
 );
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
@@ -764,7 +765,7 @@ app.get("/student_data", (req, res) => {
   }
 
   mysqldb.query(
-    "SELECT full_name,email,parent_email,student_number FROM students WHERE email = ?",
+    "SELECT full_name,email,parent_email,student_number,profilephotos FROM students WHERE email = ?",
     [req.session.email],
     (error, result) => {
       if (error) {
@@ -791,6 +792,53 @@ app.post("/logout", (req, res) => {
     res.clearCookie("connect.sid");
     res.status(200).send("Logout Success");
   });
+});
+
+app.post("/updateinfo", (req, res) => {
+  const { fullname, studentnumber, parentemail, profilePhotoData } = req.body;
+
+  const studentsession = req.session.email;
+
+  const updates = [];
+  const values = [];
+
+  if (profilePhotoData) {
+    updates.push("profilephotos = ?");
+    values.push(profilePhotoData);
+  }
+
+  if (fullname) {
+    updates.push("full_name = ?");
+    values.push(fullname);
+  }
+
+  if (studentnumber) {
+    updates.push("student_number = ?");
+    values.push(studentnumber);
+  }
+
+  if (parentemail) {
+    updates.push("parent_email = ?");
+    values.push(parentemail);
+  }
+
+  if (updates.length === 0) {
+    return res.status(400).send("Nothing to update");
+  }
+
+  values.push(studentsession);
+
+  mysqldb.query(
+    `UPDATE students SET ${updates.join(", ")} WHERE email = ?`,
+    values,
+    (err, result) => {
+      if (err) {
+        return res.status(500).send("Database error");
+      }
+
+      res.status(200).send("Done");
+    },
+  );
 });
 
 app.get("/database", (req, res) => {
