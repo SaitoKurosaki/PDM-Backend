@@ -281,6 +281,7 @@ app.post("/login", async (req, res) => {
               return res.status(500).send("Session Error");
             }
             req.session.email = result[0].email;
+
             req.session.save((error) => {
               if (error) {
                 console.error(error);
@@ -754,8 +755,6 @@ app.get("/check_session", (req, res) => {
     return res.status(401).send("Not authenticated");
   }
 
-  console.log("Logged in as:", req.session.email);
-
   res.status(200).send("Authenticated");
 });
 
@@ -839,6 +838,70 @@ app.post("/updateinfo", (req, res) => {
       res.status(200).send("Done");
     },
   );
+});
+
+app.post("/classcode", (req, res) => {
+  const email = req.session.email;
+  const { classcode } = req.body;
+
+  if (!email) {
+    return res.status(401).send("Please log in first");
+  }
+
+  if (!classcode || !classcode.trim()) {
+    return res.status(400).send("Please enter a class code");
+  }
+
+  const code = classcode.trim();
+
+  const checkQuery = `
+        SELECT ID
+        FROM class_codes
+        WHERE CLASS_CODE = ?
+        LIMIT 1
+    `;
+
+  mysqldb.query(checkQuery, [code], (error, rows) => {
+    if (error) {
+      console.error("Class code check error:", error);
+      return res.status(500).send("Database Error");
+    }
+
+    if (rows.length === 0) {
+      return res.status(400).send("Invalid class code");
+    }
+
+    const updateQuery = `
+            UPDATE students
+            SET classcode = JSON_ARRAY_APPEND(
+                COALESCE(classcode, JSON_ARRAY()),
+                '$',
+                ?
+            )
+            WHERE email = ?
+              AND NOT JSON_CONTAINS(
+                  COALESCE(classcode, JSON_ARRAY()),
+                  JSON_QUOTE(?)
+              )
+        `;
+
+    mysqldb.query(updateQuery, [code, email, code], (error, result) => {
+      if (error) {
+        console.error("Student update error:", error);
+        return res.status(500).send("Database Error");
+      }
+
+      if (result.affectedRows === 0) {
+        return res
+          .status(409)
+          .send(
+            "You already joined this class, or your student account was not found.",
+          );
+      }
+
+      return res.status(200).send("Class joined successfully!");
+    });
+  });
 });
 
 app.get("/database", (req, res) => {
